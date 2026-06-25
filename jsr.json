@@ -1,0 +1,5 @@
+{
+  "name": "@carlosnunezmx/miruta",
+  "version": "1.0.0",
+  "exports": "./dist/index.js"
+}
