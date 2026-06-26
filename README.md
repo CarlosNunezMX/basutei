@@ -2,7 +2,7 @@
 
 <h1 align="center">Jericayapp Basutei</h1>
 
-Cliente HTTP y SSE **no oficial** del API Interna de [Mi Ruta - SITREN](https:///miruta.sitren.gob.mx). Hecho para Bun y NodeJS con capacidades de usarse en React Native.
+Cliente HTTP y SSE **no oficial** del API Interna de [Mi Ruta - SITEUR](https:///miruta.sitren.gob.mx). Hecho para Bun y NodeJS con capacidades de usarse en React Native.
 
 ## Instalación
 
