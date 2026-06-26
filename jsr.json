@@ -1,5 +1,5 @@
 {
   "name": "@carlosnunezmx/basutei",
   "version": "1.0.0",
-  "exports": "./dist/index.js"
+  "exports": "./src/index.js"
 }
