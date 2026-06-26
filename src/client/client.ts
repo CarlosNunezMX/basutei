@@ -78,7 +78,7 @@ export class MiRutaClient {
     return response.results;
   }
 
-  public async getRealtime(route: number) {
+  public async getRouteStream(route: number) {
     if (!this.token || !this.expiresAt) throw new AuthError();
     const url = `${this.apiURL}/units/stream?id=${route}&token=${this.token}`;
     const response = await fetch(url, await this.addAuth.bind(this)({}));

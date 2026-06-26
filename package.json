@@ -1,7 +1,17 @@
 {
-  "name": "@carlosnunezmx/miruta",
-  "module": "dist/index.js",
+  "name": "@carlosnunezmx/basutei",
+  "homepage": "https://github.com/CarlosNunezMX/basutei",
+  "author": {
+    "name": "CarlosNunezMX",
+    "url": "https://github.com/CarlosNunezMX"
+  },
+  "license": "GPL-3.0-only",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "type": "module",
+  "scripts": {
+    "build": "tsup"
+  },
   "devDependencies": {
     "@types/bun": "latest",
     "tsup": "^8.5.1"
