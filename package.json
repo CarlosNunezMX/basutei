@@ -8,9 +8,6 @@
   "license": "GPL-3.0-only",
   "module": "./src/index.ts",
   "type": "module",
-  "scripts": {
-    "build": "tsup"
-  },
   "devDependencies": {
     "@types/bun": "latest",
     "tsup": "^8.5.1"
