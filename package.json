@@ -6,8 +6,7 @@
     "url": "https://github.com/CarlosNunezMX"
   },
   "license": "GPL-3.0-only",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "module": "./src/index.ts",
   "type": "module",
   "scripts": {
     "build": "tsup"

@@ -9,6 +9,7 @@ import type {
   UnitResponse,
 } from "../types/responses";
 import { Utils } from "./utils";
+import type { RouteUnit } from "../../dist";
 
 export class MiRutaClient {
   private token?: string;
@@ -65,7 +66,7 @@ export class MiRutaClient {
     return response.results;
   }
 
-  public async getRouteUnits(id: number | number[]) {
+  public async getRouteUnits(id: number | number[]): Promise<RouteUnit[]> {
     const isNumber = typeof id === "number";
     const query = isNumber ? id : id.join(",");
     const url = `${this.apiURL}/units?${isNumber ? "id" : "ids"}=${query}`;
