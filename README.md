@@ -1,6 +1,6 @@
-<center><img src="banner.png" alt="Jericayapp/basutei banner"/></center>
+<p align="center"><img src="banner.png" alt="Jericayapp/basutei banner"/></p>
 
-<center><h1>Jericayapp Basutei</h1></center>
+<h1 align="center">Jericayapp Basutei</h1>
 
 Cliente HTTP y SSE **no oficial** del API Interna de [Mi Ruta - SITREN](https:///miruta.sitren.gob.mx). Hecho para Bun y NodeJS con capacidades de usarse en React Native.
 
@@ -38,7 +38,7 @@ routes.forEach(console.log);
 
 ### Obtener derroteos
 
-La forma recomendada de obtener derroteos es enviar una petición con todas las rutas, aunque tambien es posible obtener el derroteo de solo una.
+La forma recomendada de obtener derroteos es enviar streamuna petición con todas las rutas, aunque tambien es posible obtener el derroteo de solo una.
 
 El metodo es capaz de aceptar una sola ruta o un arreglo con los ids de las rutas
 
