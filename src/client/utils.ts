@@ -5,7 +5,6 @@ import type { ResponseWithData } from "../types/responses";
 
 export class Utils {
   static handleError<T>(request: Response, response: ResponseWithData<T>) {
-    console.log(request);
     if (request.status === 401) throw new AuthError();
     if (request.status === 419) throw new RateLimitError();
     if (
