@@ -64,7 +64,7 @@ export class MiRutaClient {
     const response = (await request.json()) as RouteShapeResponse | RouteShape;
 
     Utils.handleError(request, response as RouteShapeResponse);
-    return (response as RouteShapeResponse).routes ?? (response as RouteShape).lines;
+    return (response as RouteShapeResponse).routes ?? (response as RouteShape);
   }
 
   public async getRouteUnits(id: number | number[]): Promise<RouteUnit[]> {
