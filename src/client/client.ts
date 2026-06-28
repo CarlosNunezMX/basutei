@@ -61,10 +61,10 @@ export class MiRutaClient {
     const url = `${this.apiURL}/route-shapes?${isNumber ? "id" : "ids"}=${routes}`;
 
     const request = await fetch(url, await this.addAuth.bind(this)({}));
-    const response = (await request.json()) as RouteShapeResponse;
+    const response = (await request.json()) as RouteShapeResponse | RouteShape;
 
-    Utils.handleError(request, response);
-    return response.results;
+    Utils.handleError(request, response as RouteShapeResponse);
+    return (response as RouteShapeResponse).routes ?? (response as RouteShape).lines;
   }
 
   public async getRouteUnits(id: number | number[]): Promise<RouteUnit[]> {

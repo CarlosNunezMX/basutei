@@ -13,7 +13,7 @@ export type MiRutaAuthResponse = {
   token: string;
 };
 
-export type RouteShapeResponse = ResponseWithData<RouteShape>;
+export type RouteShapeResponse = ResponseWithData<void> & { routes: RouteShape[] };
 export interface UnitResponse extends ResponseWithData<RouteUnit> {
   timestamp: string;
 }
