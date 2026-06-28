@@ -1,7 +1,7 @@
 import ApiError from "../errors/ApiError";
 import AuthError from "../errors/Auth";
 import { UnitSSE } from "./sse";
-import type { Route, RouteShape } from "../types";
+import type { Route, RouteShape, RouteUnit } from "../types";
 import type {
   MiRutaAuthResponse,
   RouteShapeResponse,
@@ -9,7 +9,6 @@ import type {
   UnitResponse,
 } from "../types/responses";
 import { Utils } from "./utils";
-import type { RouteUnit } from "../../dist";
 
 export class MiRutaClient {
   private token?: string;
@@ -54,7 +53,9 @@ export class MiRutaClient {
     return response.routes;
   }
 
-  public async getRouteShape(route: number | number[]): Promise<RouteShape[]> {
+  public async getRouteShape(
+    route: number | number[],
+  ): Promise<RouteShape | RouteShape[]> {
     const isNumber = typeof route === "number";
     const routes: number | string = isNumber ? route : route.join(",");
     const url = `${this.apiURL}/route-shapes?${isNumber ? "id" : "ids"}=${routes}`;
