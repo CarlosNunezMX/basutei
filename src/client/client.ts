@@ -10,9 +10,12 @@ import type {
 } from "../types/responses";
 import { Utils } from "./utils";
 
+export interface EventSourceLike {
+  new (input: string | URL, init?: EventSourceInit): EventSource;
+}
 
-export interface FetchLike {
-  (input: Request | string | URL, init?: RequestInit): Promise<Response>;
+export interface MiRutaClientOptions {
+  eventSource?: EventSourceLike;
 }
 
 export class MiRutaClient {
@@ -20,12 +23,28 @@ export class MiRutaClient {
   private apiVersion: string = "7d41d174"; // updated at 25-06
   private expiresAt?: Date;
 
-  constructor(private fetch: FetchLike) { };
+  constructor(private eventSource: EventSourceLike = globalThis.EventSource) {}
 
   private apiURL = "https://miruta.siteur.gob.mx/api";
+  private async getBootstrapNonce(): Promise<string> {
+    const req = await fetch("https://miruta.siteur.gob.mx/");
+    const res = await req.text();
+    const nonce = res.match(/BOOTSTRAP_NONCE:\s*"([^"]+)"/);
+    const routes = res.match(/ROUTES_VERSION:\s*"([^"]+)"/);
+    if (routes && routes[1]) this.apiVersion = routes[1];
+    if (!nonce || !nonce[1]) throw new ApiError(res, []);
+
+    return nonce[1]!;
+  }
   public async auth(): Promise<MiRutaClient> {
     const url = `${this.apiURL}/auth/bootstrap`;
-    const request = await this.fetch(url);
+    const nonce = await this.getBootstrapNonce();
+    const request = await fetch(url, {
+      headers: {
+        "X-Bootstrap-Nonce": nonce,
+        Referer: "https://miruta.siteur.gob.mx/",
+      },
+    });
     const response = (await request.json()) as MiRutaAuthResponse;
 
     if (request.status !== 200 || !response.ok)
@@ -52,7 +71,7 @@ export class MiRutaClient {
 
   public async getRoutes(): Promise<Route[]> {
     const url = `${this.apiURL}/routes?v=${this.apiVersion}`;
-    const request = await this.fetch(url, await this.addAuth.bind(this)({}));
+    const request = await fetch(url, await this.addAuth.bind(this)({}));
     const response = (await request.json()) as RouteResponse;
 
     Utils.handleError(request, response);
@@ -67,7 +86,7 @@ export class MiRutaClient {
     const routes: number | string = isNumber ? route : route.join(",");
     const url = `${this.apiURL}/route-shapes?${isNumber ? "id" : "ids"}=${routes}`;
 
-    const request = await this.fetch(url, await this.addAuth.bind(this)({}));
+    const request = await fetch(url, await this.addAuth.bind(this)({}));
     const response = (await request.json()) as RouteShapeResponse | RouteShape;
 
     Utils.handleError(request, response as RouteShapeResponse);
@@ -79,7 +98,7 @@ export class MiRutaClient {
     const query = isNumber ? id : id.join(",");
     const url = `${this.apiURL}/units?${isNumber ? "id" : "ids"}=${query}`;
 
-    const request = await this.fetch(url, await this.addAuth.bind(this)({}));
+    const request = await fetch(url, await this.addAuth.bind(this)({}));
     const response = (await request.json()) as UnitResponse;
 
     Utils.handleError(request, response);
@@ -87,11 +106,9 @@ export class MiRutaClient {
     return response.results;
   }
 
-  public async getRouteStream(route: number): Promise<UnitSSE> {
+  public getRouteStream(route: number): UnitSSE {
     if (!this.token || !this.expiresAt) throw new AuthError();
     const url = `${this.apiURL}/units/stream?id=${route}&token=${this.token}`;
-    const response = await this.fetch(url, await this.addAuth.bind(this)({}));
-    if (!response.body) throw new ApiError(response, []);
-    return new UnitSSE(response.body);
+    return new UnitSSE(url);
   }
 }
