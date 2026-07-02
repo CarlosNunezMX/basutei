@@ -1,5 +1,5 @@
 {
   "name": "@carlosnunezmx/basutei",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "exports": "./src/index.ts"
 }

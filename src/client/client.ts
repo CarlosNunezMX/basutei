@@ -109,6 +109,6 @@ export class MiRutaClient {
   public getRouteStream(route: number): UnitSSE {
     if (!this.token || !this.expiresAt) throw new AuthError();
     const url = `${this.apiURL}/units/stream?id=${route}&token=${this.token}`;
-    return new UnitSSE(url);
+    return new UnitSSE(url, this.eventSource);
   }
 }
